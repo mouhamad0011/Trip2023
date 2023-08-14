@@ -1,0 +1,224 @@
+body{
+    margin: 0;
+ }
+
+header{
+    height: 60px;
+   
+}
+.container1{
+    background-color: rgb(71, 158, 24);
+    display: grid;
+    grid-template-columns: 30% 50% 20%;
+    position: fixed; 
+    top: 0; 
+    width: 100%;
+}
+.first{
+    margin-left: 35px;
+    margin-top: 14px;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight:bolder;
+    font-size: x-large;
+}
+.third{
+    margin-top: 13px;
+}
+.third input{
+    width: 120px;
+    height: 30px;
+    font-size: medium;
+    background-color: white;
+}
+.third input:hover{
+   color: blue;
+}
+.nav{
+    display: flex;
+}
+.nav li{
+    list-style-type: none;
+    padding-left: 30px;
+    
+}
+li a{
+    text-decoration: none;
+    color: rgb(228, 223, 223);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+}
+li a:hover{
+ color: white;
+ text-decoration: underline;
+ font-size: larger;
+}
+.footer {
+    background-color:rgb(71, 158, 24);
+    color: white;
+    padding-left: 30px;
+    padding-top: 8px;
+}
+.social-icons{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+span{
+    padding-left: 15px;
+}
+.social-media{
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+
+main {
+   
+    margin: 0 auto;
+    padding: 2em;
+    height: 510px;
+}
+
+
+.trip-details {
+    margin-bottom: 2em;
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+    gap: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.slider {
+    position: relative;
+    width: 350px;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-top: 30px;
+}
+.act{
+   float: left;
+}
+.slider-container {
+    display: flex;
+    animation: slideAnimation 15s infinite; /* Adjust the total animation time as needed (in seconds) */
+}
+
+.slide {
+    flex: 0 0 100%;
+}
+
+.slide img {
+    width: 350px;
+    height: 230px;
+}
+
+@keyframes slideAnimation {
+    0%, 100% {
+        transform: translateX(0%);
+    }
+    20% {
+        transform: translateX(-100%);
+    }
+    40% {
+        transform: translateX(-200%);
+    }
+    60% {
+        transform: translateX(-300%);
+    }
+    80% {
+        transform: translateX(-400%);
+    }
+}
+.booking {
+    text-align: center;
+}
+
+#book-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+/* Add this CSS in your existing stylesheet or create a new section for it */
+
+/* Modal Overlay */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal Content */
+.modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Modal Buttons */
+#cashButton,
+#creditCardButton,
+#confirmButton,
+#cancelButton {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Credit Card Form */
+#creditCardInfo {
+    display: none;
+    margin-top: 20px;
+    text-align: left;
+}
+
+#creditCardForm label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#creditCardForm input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#creditCardForm button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Additional styles for responsiveness */
+@media screen and (max-width: 600px) {
+    .modal {
+        width: 80%;
+    }
+}
