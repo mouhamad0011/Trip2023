@@ -28,7 +28,6 @@
                 error_reporting(0);
                 if($_SESSION['isloggedin']==1){
                   echo "<li><a href='oldtrips.php'>OLDTRIPS</a></li>";
-                  echo "<li><a href='fav.php'>FAVORITES</a></li>";
                 }
                 else echo"";
                 ?>
@@ -55,7 +54,7 @@
 
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" required>
-
+      <span id="email-error" class="error"></span>
       <label for="subject">Subject:</label>
       <input type="text" id="subject" name="subject" required>
 
@@ -82,5 +81,23 @@
        <p> Copyright © 2023 ADVENTURE AWAITS. All rights reserved.</p>
         </div>
     </footer>
+<script>
+  const emailInput = document.getElementById("email");
+  const emailError = document.getElementById("email-error");
+
+  emailInput.addEventListener("input", function () {
+    const email = emailInput.value;
+    if (validateEmail(email)) {
+      emailError.textContent = "";
+    } else {
+      emailError.textContent = "Please enter a valid email address";
+    }
+  });
+
+  function validateEmail(email) {
+    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return pattern.test(email);
+  }
+</script>
 </body>
 </html>

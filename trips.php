@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="Trip.css">
+<link rel="stylesheet" href="TRIPS.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <title>Trips Around Lebanon</title>
 </head>
@@ -26,7 +26,6 @@
                 error_reporting(0);
                 if($_SESSION['isloggedin']==1){
                   echo "<li><a href='oldtrips.php'>OLDTRIPS</a></li>";
-                  echo "<li><a href='fav.php'>FAVORITES</a></li>";
                 }
                 else echo"";
                 ?>
@@ -47,7 +46,8 @@
     <main>
   <?php
    require_once 'connection.php';
-   $query="SELECT * FROM upcomingtrips";
+   $currentDate = date('Y-m-d'); 
+   $query="SELECT * FROM upcomingtrips where date>'".$currentDate."'";
    $result=mysqli_query($con,$query);
    $nbr=mysqli_num_rows($result);
    for($i=0;$i<$nbr;$i++){
@@ -63,7 +63,7 @@
       <h2>Trip ".$row['num'].": ".$row['place']."</h2>
       <p>Date: ".$row['date']."</p>
       <p>To see more photos and know about activities to do there</p>
-      <a class='seemore' href='thistrip.php?num=$row[num] && place=$row[place]' >See More</a>
+      <a class='btn' href='thistrip.php?num=$row[num] && place=$row[place]' >See More</a>
     </div>
   </div>
     ";

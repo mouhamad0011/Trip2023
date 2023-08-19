@@ -4,17 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trip Website - Login</title>
-  <link rel="stylesheet" href="index1.css">
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="body">
   <div class="container">
-    <img src="logo.png" alt="Trip Website Logo">
+    
     <form action="login.php" method="get">
       <h2>Login</h2>
       <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
+        <span id="username-error" class="error"></span>
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
@@ -27,5 +28,6 @@
     </form>
   </div>
     </div>
+    
 </body>
 </html>

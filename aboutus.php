@@ -25,7 +25,6 @@
                 error_reporting(0);
                 if($_SESSION['isloggedin']==1){
                   echo "<li><a href='oldtrips.php'>OLDTRIPS</a></li>";
-                  echo "<li><a href='fav.php'>FAVORITES</a></li>";
                 }
                 else echo"";
                 ?>
@@ -46,7 +45,7 @@
     <main>
     <div class="container">
     <div class="about-content">
-      <img src="lebanon-adventures-logo.png" alt="Lebanon Adventures Logo" class="about-image">
+      <img src="logp.jpg" alt="Lebanon Adventures Logo" class="about-image">
       <h2>Discover Lebanon with Us</h2>
       <p>Welcome to Adventure AWAITS, your gateway to exploring the breathtaking beauty and rich culture of Lebanon.</p>
       <p>Our passionate team is composed of local experts who are deeply connected to the heart and soul of this enchanting country...</p>

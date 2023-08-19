@@ -74,13 +74,18 @@ main{
   margin-top: 13px;
 }
 .third input{
-  width: 120px;
-  height: 30px;
-  font-size: medium;
-  background-color: white;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color:  #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 .third input:hover{
- color: blue;
+  background-color:  #2980b9;
 }
 .nav{
     display: flex;
@@ -124,4 +129,8 @@ footer{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+button:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
 }

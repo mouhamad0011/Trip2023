@@ -1,25 +1,37 @@
 <!DOCTYPE html>
+<?php
+  require_once 'connection.php';
+  session_start();
+  if($_SESSION['isloggedin']!=1)header("Location:signup.php");
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Travel Booking</title>
     <link rel="stylesheet" href="https:cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="Thistrip.css">
+    <link rel="stylesheet" href="thattrip.css">
 </head>
 <body>
 <?php
-     session_start();
-          require_once "connection.php";
-          $query1="SELECT * FROM upcomingtrips WHERE num=".$_GET['num']."";
+          
+          $_SESSION['num']=$_GET['num'];
+          $query1="SELECT * FROM upcomingtrips WHERE num=".$_SESSION['num']."";
           $result1=mysqli_query($con,$query1);
           $row1=mysqli_fetch_array($result1);
+          $_SESSION['tick']=$row1['ticketsleft'];
           $query2="SELECT * FROM images WHERE place='".$_GET['place']."'";
           $result2=mysqli_query($con,$query2);
           $row2=mysqli_fetch_array($result2);
           $query3="SELECT * FROM activities WHERE num=".$_GET['num']."";
           $result3=mysqli_query($con,$query3);
           $row3=mysqli_fetch_array($result3);
+          $query4="SELECT * FROM driver WHERE id=".$row1['driverid']."";
+          $result4=mysqli_query($con,$query4);
+          $row4=mysqli_fetch_array($result4);
+          $query5="SELECT * FROM transport WHERE num=".$row1['num']."";
+          $result5=mysqli_query($con,$query5);
+          $row5=mysqli_fetch_array($result5);
         ?>
 
 <header>
@@ -37,7 +49,6 @@
                 error_reporting(0);
                 if($_SESSION['isloggedin']==1){
                   echo "<li><a href='oldtrips.php'>OLDTRIPS</a></li>";
-                  echo "<li><a href='fav.php'>FAVORITES</a></li>";
                 }
                 else echo"";
                 ?>
@@ -56,17 +67,8 @@
         </div>
     </header>
     <main>
-        
-        <section class="trip-details">
-            <div class="description">
-            <h2>Trip Details</h2>
-            <p><strong>Trip:</strong> Summer Vacation</p>
-            <p><strong>Destination:</strong> <?php echo $_GET['place']; ?></p>
-            <p><strong>Date:</strong> <?php echo $row1['date']; ?></p>
-            <p><strong>Restaurant:</strong> <?php echo $row1['restoname']; ?></p>
-            <p><strong>Cost:</strong> <?php echo $row1['cost']."$"; ?></p>
-            </div>
-            <div class="slider">
+    <section class="slider-booking">
+    <div class="slider">
         <div class="slider-container">
         <?php
             $imageFile =explode(',',$row2['img']);
@@ -78,21 +80,53 @@
             ?>
         </div>
     </div>
+    <div class="description">
+                <table style="border-spacing:50px 0;">
+            <tr><th colspan="2"><h2>Trip Details</h2></th></tr>
+           <tr> <td><p><strong>Trip:</strong> Summer Vacation</p></td>
+           <td> <p><strong>Destination:</strong> <?php echo $_GET['place']; ?></p></td>
+           </tr>
+           <tr><td> <p><strong>Date:</strong> <?php echo $row1['date']; ?></p></td>
+           <td> <p><strong>Restaurant:</strong> <?php echo $row1['restoname']; ?></p></td>
+           </tr>
+           <tr><td> <p><strong>Meeting location:</strong> <?php echo $row5['location']; ?></p></td>
+           <td> <p><strong>Time:</strong> <?php echo $row5['time']; ?></p></td>
+           </tr>
+           <tr><td> <p><strong>Driver number:</strong> <?php echo $row4['phonenumber']; ?></p></td>
+            <td><p><strong>Cost:</strong> <?php echo $row1['cost']."$"; ?></p></td>
+           </tr>
+            </table>
+            </div>
+   
+        </section>
+        <section class="trip-activities">
+            <section class="trip-details">
+            <section class="booking">
+            <h2>Booking Status</h2>
+            <?php
+              $query4="SELECT * FROM book where num=".$_SESSION['num']." and username='".$_SESSION['name']."'";
+              $result4=mysqli_query($con,$query4);
+              if(mysqli_num_rows($result4)==0)
+              echo "<p id='book'>Status: Not Booked</p>";
+              else
+              echo "<p id='book'>Status: Booked</p>";
+            ?>
+            <p class="tickets-hidden">Tickets left: <?php echo $row1['ticketsleft'];?></p>
+            <button id="book-button">Book Now</button>
+        </section>
+           
     <div class="act">
         <p><strong>Activities:</strong> <?php echo $row3['act']; ?></p>
     </div>
         </section>
-        
-        <section class="booking">
-            <h2>Booking Status</h2>
-            <p>Status: Not Booked</p>
-            <button id="book-button">Book Now</button>
         </section>
+        
+        
         <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
         <h2>Booking Confirmation</h2>
         <p>How would you like to pay?</p>
-        <button id="cashButton">Cash</button>
+        <button id="cashButton"  onclick="window.open('book.php')">Cash</button>
         <button id="creditCardButton">Credit Card</button>
         <div id="creditCardInfo" style="display: none;">
             <h3>Enter Credit Card Information</h3>
@@ -103,14 +137,19 @@
                 <input type="text" id="expiration" required>
                 <label for="cvv">CVV:</label>
                 <input type="text" id="cvv" required>
-                <button type="submit">Confirm Payment</button>
+                <button type="submit" onclick="window.open('book.php')"> Confirm Payment</button>
             </form>
         </div>
         <button id="cancelButton">Cancel</button>
     </div>
 </div>
-
-
+<div class="popup" id="noTicketsPopup">
+    <div class="popup-content">
+        <p>Sorry, there are no tickets left for this trip.</p>
+        <button id="closePopup">Close</button>
+    </div>
+</div>
+   </p>
     </main>
     <footer class="footer">
         <div class="social-icons">
@@ -131,14 +170,6 @@
     <script>
         
 const bookButton = document.getElementById('book-button');
-bookButton.addEventListener('click', function() {
-    const statusElement = document.querySelector('.booking p');
-    statusElement.textContent = 'Status: Booked';
-    bookButton.disabled = true;
-});
-
-// Add this JavaScript code after your existing script
-
 const modalOverlay = document.getElementById('modalOverlay');
 const cashButton = document.getElementById('cashButton');
 const creditCardButton = document.getElementById('creditCardButton');
@@ -168,10 +199,11 @@ creditCardForm.addEventListener('submit', function(event) {
         handlePayment('Credit Card');
     }
 });
-
+const book=document.getElementById("book");
 cancelButton.addEventListener('click', function() {
     modalOverlay.style.display = 'none';
     creditCardInfo.style.display = 'none';
+    book.innerHTML="Status: Not Booked";
 });
 
 function handlePayment(paymentMethod) {
@@ -181,7 +213,23 @@ function handlePayment(paymentMethod) {
     modalOverlay.style.display = 'none';
 }
 
+if(book.innerHTML=="Status: Booked")
+bookButton.setAttribute("disabled","disabled");
 
+const noTicketsPopup = document.getElementById('noTicketsPopup');
+const closePopupButton = document.getElementById('closePopup');
+const ticketshidden=document.querySelector(".tickets-hidden");
+bookButton.addEventListener('click', function() {
+    if (ticketshidden.innerHTML=="Tickets left: 0") {
+        noTicketsPopup.style.display = 'flex';
+        modalOverlay.style.display='none';
+    } 
+});
+
+closePopupButton.addEventListener('click', function() {
+    noTicketsPopup.style.display = 'none';
+    
+});
     </script>
 </body>
 </html>
